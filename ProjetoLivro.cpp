@@ -1,11 +1,3 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -20,7 +12,6 @@ struct Livros{
     int emprestimo;
     char nomeExemplar[100][100];
 };
-
 void CadastrarLivro (struct Livros livro[], int &tam)
 {
     if(tam>100)
@@ -31,23 +22,29 @@ void CadastrarLivro (struct Livros livro[], int &tam)
     else
     {
         cout<<"Título do livro: ";
-        cin.ignore();
-        cin.getline(livro[tam].livro, 100);
+        cin.ignore(); 
+        cin.getline(livro[tam].livro, 100);  
+        
         cout<<"Autor do livro: ";
-        cin>>livro[tam].autor;
+        cin.getline(livro[tam].autor, 100);  
+
         cout<<"Páginas do livro: ";
         cin>>livro[tam].pagina;
+        
         cout<<"Ano de publicação: ";
         cin>>livro[tam].publicacao;
+        
         cout<<"ID do livro: ";
         cin>>livro[tam].id;
+        
         cout<<"Quantidade em estoque: ";
         cin>>livro[tam].estoque;
         
-        livro[tam].emprestimo=0;
+        livro[tam].emprestimo = 0;
         tam++;
     }
 }
+
 void ConsultarLivro(struct Livros livro[], int tam)
 {
     int opcao;
