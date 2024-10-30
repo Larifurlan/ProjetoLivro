@@ -129,7 +129,7 @@ void ConsultarLivro(struct Livros livro[], int tam) {
                         cout << "Emprestado por: ";
                         for(int j = 0; j < livro[i].emprestimo; j++) {
                             cout << livro[i].nomeExemplar[j];
-                            if(j < livro[i].emprestimo - 1) {
+                            if(livro[i].emprestimo - 1 > j) {
                                 cout << ", ";
                             }
                         }
