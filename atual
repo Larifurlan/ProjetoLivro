@@ -1,0 +1,199 @@
+#include <iostream> 
+#include <cstring>
+using namespace std;
+
+// Estrutura para armazenar informações sobre os livros
+struct Livros {
+    char livro[100];           // Título do livro
+    char autor[100];          // Autor do livro
+    int pagina;               // Número de páginas
+    int publicacao;           // Ano de publicação
+    int id;                   // ID do livro
+    int estoque;              // Quantidade disponível em estoque
+    int emprestimo;           // Quantidade de empréstimos registrados
+    char nomeExemplar[100][100]; // Nome das pessoas que pegaram emprestado
+};
+
+// Função para cadastrar um novo livro
+void CadastrarLivro(struct Livros livro[], int &tam) {
+    if(tam >= 100) {  // Verifica se o limite de livros foi atingido
+        cout << "Quantidade de livros cadastrados excedido!";
+        return;
+    } else {
+        cout << "*** Cadastro do livro ***\n";
+        cout << "Título do livro: ";
+        cin.ignore(); 
+        cin.getline(livro[tam].livro, 100);  // Lê o título do livro
+        
+        cout << "Autor do livro: ";
+        cin.getline(livro[tam].autor, 100);  // Lê o autor do livro
+
+        cout << "Páginas do livro: ";
+        cin >> livro[tam].pagina;  // Lê o número de páginas
+        
+        cout << "Ano de publicação: ";
+        cin >> livro[tam].publicacao;  // Lê o ano de publicação
+        
+        cout << "ID do livro: ";
+        cin >> livro[tam].id;  // Lê o ID do livro
+        
+        cout << "Quantidade em estoque: ";
+        cin >> livro[tam].estoque;  // Lê a quantidade em estoque
+        
+        livro[tam].emprestimo = 0;  // Inicializa o número de empréstimos
+        tam++;  // Incrementa o contador de livros cadastrados
+    }
+}
+
+// Função para consultar livros cadastrados
+void ConsultarLivro(struct Livros livro[], int tam) {
+    int opcao;
+    cout << "*** Consultar livro ***\n";
+    cout << "Como deseja consultar o livro?" << endl;
+    cout << "1 - Listar todos os livros cadastrados" << endl;
+    cout << "2 - Buscar um livro por ID ou título" << endl;
+    cout << endl;
+    cout << "Escolha uma opção: ";
+    cin >> opcao;
+    
+    if(opcao == 1) {  // Se a opção for listar todos
+        for(int i = 0; i < tam; i++) {
+            cout << endl;
+            cout << "*** Livros cadastrados ***" << endl;
+            cout << "Titulo do livro: " << livro[i].livro << endl;
+            cout << "Autor do livro: " << livro[i].autor << endl;
+            cout << "Páginas do livro: " << livro[i].pagina << endl;
+            cout << "Ano de publicação: " << livro[i].publicacao << endl;
+            cout << "ID do livro: " << livro[i].id << endl;
+            cout << "Quantidade em estoque: " << livro[i].estoque << endl;
+
+            // Verifica se o livro foi emprestado
+            if(livro[i].emprestimo > 0) {
+                cout << "Emprestado por: ";
+                for(int j = 0; j < livro[i].emprestimo; j++) {
+                    cout << livro[i].nomeExemplar[j];
+                    if(j < livro[i].emprestimo - 1) {
+                        cout << ", ";  // Formata a lista de nomes
+                    }
+                }
+                cout << endl;
+            }
+            cout << endl;
+        }
+    } else if(opcao == 2) {  // Se a opção for buscar por ID ou título
+        int resp, idConsul;
+        char tituloConsul[100];
+        cout << "1- ID\n2-Titulo" << endl;
+        cout << "Deseja buscar o livro por: ";
+        cin >> resp;
+        
+        if(resp == 1) {  // Busca por ID
+            cout << "Informe o ID do livro: ";
+            cin >> idConsul;
+            for(int i = 0; i < tam; i++) {
+                if(livro[i].id == idConsul) {
+                    cout << endl;
+                    cout << "Título do livro: " << livro[i].livro << endl;
+                    cout << "Autor do livro: " << livro[i].autor << endl;
+                    cout << "Páginas do livro: " << livro[i].pagina << endl;
+                    cout << "Ano de publicação: " << livro[i].publicacao << endl;
+                    cout << "ID do livro: " << livro[i].id << endl;
+                    cout << "Quantidade em estoque: " << livro[i].estoque << endl;
+                    if(livro[i].emprestimo > 0) {
+                        cout << "Emprestado por: ";
+                        for(int j = 0; j < livro[i].emprestimo; j++) {
+                            cout << livro[i].nomeExemplar[j];
+                            if(j < livro[i].emprestimo - 1) {
+                                cout << ", ";
+                            }
+                        }
+                    cout << endl;
+                    }
+                    cout << endl;
+                }
+            }
+        } else if(resp == 2) {  // Busca por título
+            cout << "Informe o título do livro: ";
+            cin.ignore(); 
+            cin.getline(tituloConsul, 100); 
+            for(int i = 0; i < tam; i++) {
+                if(strcmp(livro[i].livro, tituloConsul) == 0) {  // Compara o título
+                    cout << endl;
+                    cout << "Título do livro: " << livro[i].livro << endl;
+                    cout << "Autor do livro: " << livro[i].autor << endl;
+                    cout << "Páginas do livro: " << livro[i].pagina << endl;
+                    cout << "Ano de publicação: " << livro[i].publicacao << endl;
+                    cout << "ID do livro: " << livro[i].id << endl;
+                    cout << "Quantidade em estoque: " << livro[i].estoque << endl;
+                    if(livro[i].emprestimo > 0) {
+                        cout << "Emprestado por: ";
+                        for(int j = 0; j < livro[i].emprestimo; j++) {
+                            cout << livro[i].nomeExemplar[j];
+                            if(j < livro[i].emprestimo - 1) {
+                                cout << ", ";
+                            }
+                        }
+                    cout << endl;
+                    }
+                    cout << endl;
+                }
+            }
+        }
+    }
+}
+
+// Função para emprestar um livro
+void EmprestimoLivro(struct Livros livro[], int tam) {
+    int id;
+    char pessoa[50];
+    cout << "*** Emprestimo do livro ***\n";
+    cout << "Digite o ID do livro que deseja emprestar: ";
+    cin >> id;
+    
+    cout << "Digite o nome da pessoa que irá emprestar: ";
+    cin.ignore();
+    cin.getline(pessoa, 50);
+    
+    for(int i = 0; i < tam; i++) {
+        if(livro[i].id == id) {  // Verifica se o ID do livro é válido
+            if(livro[i].estoque > 0) {  // Verifica se há estoque disponível
+                livro[i].estoque--;  // Decrementa o estoque
+                strcpy(livro[i].nomeExemplar[livro[i].emprestimo], pessoa);  // Registra o nome da pessoa
+                livro[i].emprestimo++;  // Incrementa o número de empréstimos
+                cout << "Livro emprestado com sucesso!" << endl;
+                return;
+            } else {
+                cout << "Livro não disponível para empréstimo!" << endl;
+                return;
+            }
+        }
+    }
+    cout << "Livro não encontrado!" << endl;  // Se não encontrar o livro
+}
+
+// Função para devolver um livro
+void DevolucaoLivro(struct Livros livro[], int tam) {
+    int id;
+    char pessoa[50];
+    cout << "*** Devolução do livro ***\n";
+    cout << "Digite o ID do livro que deseja devolver: ";
+    cin >> id;
+    
+    cout << "Digite o nome da pessoa que irá devolver: ";
+    cin.ignore();
+    cin.getline(pessoa, 50);
+    
+    for(int i = 0; i < tam; i++) {
+        if(livro[i].id == id) {  // Verifica se o ID do livro é válido
+            for(int j = 0; j < livro[i].emprestimo; j++) {
+                if(strcmp(livro[i].nomeExemplar[j], pessoa) == 0) {  // Verifica se a pessoa está na lista de empréstimos
+                    livro[i].estoque++;  // Incrementa o estoque
+                    for(int k = j; k < livro[i].emprestimo - 1; k++) {  // Remove o nome da lista
+                        strcpy(livro[i].nomeExemplar[k], livro[i].nomeExemplar[k + 1]);
+                    }
+                    livro[i].emprestimo--;  // Decrementa o número de empréstimos
+                    cout << "Livro devolvido com sucesso!" << endl;
+                    return;
+                }
+            }
+           
